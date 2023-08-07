@@ -93,10 +93,12 @@ class Cell:
         slope_rad = np.arctan(np.sqrt(dz_dx ** 2 + dz_dy ** 2))
         return slope_rad
 
-    def calc_Voellmy_friction(self):
+    def calc_Voellmy_friction(self,u):
         #new (Paula): calculate turbulence term
         #assume constants
-        u = 60 / 3.6 # m/s magnitude of velocity
+        g = 9.81 # m s-2
+        u = np.sqrt(self.z_delta * 2 * g)
+
         h = 0.5 #m
         V = self.cellsize ** 2 * h # m³ Volume
         muVoellmy = 0.155
@@ -119,11 +121,13 @@ class Cell:
         #muVoellmy = 0.155
         #self.z_alpha = muVoellmy * ds * self.cellsize + self.calc_Voellmy_friction()
         self.z_alpha = tan_alpha * ds * self.cellsize + self.calc_Voellmy_friction()
-
         
         self.z_delta_neighbour = self.z_delta + self.z_gamma - self.z_alpha
         self.z_delta_neighbour[self.z_delta_neighbour < 0] = 0
         self.z_delta_neighbour[self.z_delta_neighbour > self.max_z_delta] = self.max_z_delta
+        
+        
+        
            
     def calc_tanbeta(self):
         ds = np.array([[np.sqrt(2), 1, np.sqrt(2)], [1, 1, 1], [np.sqrt(2), 1, np.sqrt(2)]])
