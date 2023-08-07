@@ -96,7 +96,7 @@ class Cell:
     def calc_Voellmy_friction(self):
         #new (Paula): calculate turbulence term
         #assume constants
-        u = 40 / 3.6 # m/s magnitude of velocity
+        u = 60 / 3.6 # m/s magnitude of velocity
         h = 0.5 #m
         V = self.cellsize ** 2 * h # m³ Volume
         muVoellmy = 0.155
