@@ -93,7 +93,7 @@ class Cell:
         slope_rad = np.arctan(np.sqrt(dz_dx ** 2 + dz_dy ** 2))
         return slope_rad
 
-    def calc_Voellmy_friction(self,u):
+    def calc_Voellmy_friction(self):
         #new (Paula): calculate turbulence term
         #assume constants
         g = 9.81 # m s-2
