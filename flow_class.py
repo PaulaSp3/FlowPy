@@ -97,12 +97,14 @@ class Cell:
         #new (Paula): calculate turbulence term
         #assume constants
         g = 9.81 # m s-2
-        u = np.sqrt(self.z_delta * 2 * g)
-
-        h = 0.5 #m
-        V = self.cellsize ** 2 * h # m³ Volume
+        rho = 200 # kg m-3
         muVoellmy = 0.155
-        xsiVoellmy = 4000. #400-4000 (https://doi.org/10.3189/2015JoG14J168)  # 4000. (avaframe) #m/s²
+        xsiVoellmy = 1000. #400-4000 (https://doi.org/10.3189/2015JoG14J168)  # 4000. (avaframe) #m/s²
+        
+        u = np.sqrt(self.z_delta * 2 * g)
+        h = self.flux / rho / (self.cellsize**2)
+        V = self.cellsize ** 2 * h # m³ Volume
+        
         theta = self.calc_theta()
         ds = np.array([[np.sqrt(2), 1, np.sqrt(2)], [1, 0, 1], [np.sqrt(2), 1, np.sqrt(2)]])
         
