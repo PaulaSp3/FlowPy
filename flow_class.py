@@ -117,12 +117,13 @@ class Cell:
         self.z_gamma = self.altitude - self.dem_ng
         ds = np.array([[np.sqrt(2), 1, np.sqrt(2)], [1, 0, 1], [np.sqrt(2), 1, np.sqrt(2)]])
         tan_alpha = np.tan(np.deg2rad(self.alpha))
-        #self.z_alpha = ds * self.cellsize * tan_alpha
+        self.z_alpha = ds * self.cellsize * tan_alpha
         
         #new (Paula): calculate friction including turbulence term (Voellmy)
         #muVoellmy = 0.155
         #self.z_alpha = muVoellmy * ds * self.cellsize + self.calc_Voellmy_friction()
-        self.z_alpha = tan_alpha * ds * self.cellsize + self.calc_Voellmy_friction()
+        self.z_alpha += self.calc_Voellmy_friction()
+        # END Paula
         
         self.z_delta_neighbour = self.z_delta + self.z_gamma - self.z_alpha
         self.z_delta_neighbour[self.z_delta_neighbour < 0] = 0
